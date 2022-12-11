@@ -51,19 +51,19 @@ int main(){
 
     New[0].flag = 1; // đánh dấu đây là tiến trình đầu tiên -> luôn có res = 0
 
-    // Cho tiến trình đầu tiên vào Ready
-    Ready.insert(Ready.begin(),New[0]);
-    Ready[0].star = Ready[0].starDef = Ready[0].arr;
-    New.erase(New.begin());
-
     //SRTF
     while(Terminated.size() < n){
         int dem = 0;
-        int ne = New.size();
         bool flag = false;
+        if(Ready.empty() && !New.empty()){
+            Ready.push_back(New[0]);
+            New.erase(New.begin());
+            Ready[0].star = Ready[0].starDef = Ready[0].arr;
+        }
         sort(Ready.begin(), Ready.end(), cmpBur);
 
         // Kiểm tra xem proc hiện tại sẽ gặp proc nào trong quá trình thực thi
+        int ne = New.size();
         for(int i = 0; i < ne; i++){
             if(New[i].arr <= Ready[0].star + Ready[0].bur) 
                 dem++;
@@ -89,7 +89,8 @@ int main(){
                 Ready[0].fin = Ready[0].star + Ready[0].bur;
                 Ready[0].bur = 0;
                 Ready[1].star = Ready[0].fin;
-                if (!Ready[1].starDef) Ready[1].starDef = Ready[0].fin;
+                if(!Ready[0].starDef) Ready[0].starDef = Ready[0].arr;
+                if(!Ready[1].starDef) Ready[1].starDef = Ready[0].fin;
             }
         }
         else{ //dem == 0
@@ -106,7 +107,7 @@ int main(){
     }
 
     t = Terminated.size();
-    for(int i = 0; i < Terminated.size(); i++){
+    for(int i = 0; i < t; i++){
         if(Terminated[i].flag) Terminated[i].starDef = 0;
         Terminated[i].res = Terminated[i].starDef - Terminated[i].arr;
         Terminated[i].tat = Terminated[i].fin - Terminated[i].arr;

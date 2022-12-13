@@ -89,7 +89,6 @@ int main(){
                 Ready[0].fin = Ready[0].star + Ready[0].bur;
                 Ready[0].bur = 0;
                 Ready[1].star = Ready[0].fin;
-                if(!Ready[0].starDef) Ready[0].starDef = Ready[0].arr;
                 if(!Ready[1].starDef) Ready[1].starDef = Ready[0].fin;
             }
         }
@@ -108,7 +107,7 @@ int main(){
 
     t = Terminated.size();
     for(int i = 0; i < t; i++){
-        if(Terminated[i].flag) Terminated[i].starDef = 0;
+        if(Terminated[i].flag) Terminated[i].starDef = Terminated[i].arr;
         Terminated[i].res = Terminated[i].starDef - Terminated[i].arr;
         Terminated[i].tat = Terminated[i].fin - Terminated[i].arr;
         Terminated[i].wt = Terminated[i].tat - Terminated[i].burDef;
